@@ -20,8 +20,9 @@ app.get("/api/student", (req, res) => {
 app.get('/api/student/:id', (req, res) => {
     let id = req.params.id;
     for(let obj in doc){
-        if(obj.id === id){
-            res.send(obj);
+        console.log(doc[obj]);
+        if(doc[obj]["id"] === parseInt(id)){
+            res.send(doc[obj]);
             return;
         }
     }
