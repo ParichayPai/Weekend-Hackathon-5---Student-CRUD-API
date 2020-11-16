@@ -53,13 +53,11 @@ app.put("/api/student/:id", (req, res) => {
         res.status(400);
         return;
     }
-    let flag = false;
+    let flag = false, index = null;
     for(let obj in doc){
         if(doc[obj]["id"] === parseInt(id)){
-            flag = true;
-            doc[obj]["name"] = name;
-            doc[obj]["currentClass"] = currentClass;
-            doc[obj]["division"] = division;
+           flag = true;
+           index = obj;
         }
            
     }
@@ -67,6 +65,11 @@ app.put("/api/student/:id", (req, res) => {
         res.status(400);
         return;
     }
+
+    name ? doc[index]["name"] = name : null;
+    currentClass ? doc[index]["currentClass"] = currentClass : null;
+    division ? doc[index]["division"] = division : null;
+    
     res.send(doc);
     // res.send(obj.id);
 });
