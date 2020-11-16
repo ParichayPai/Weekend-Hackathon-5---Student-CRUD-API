@@ -10,15 +10,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 // your code goes here
 const fs = require('fs');
-let doc = null;
-fs.readFile('./InitialData.js', 'utf8' , (err, data) => {
-    if (err) {
-        console.error(err);
-        return;
-    }
-    //   console.log(data);
-    doc = data;
-})
+let doc = require("./InitialData");
 
 
 app.get("/api/student", (req, res) => {
