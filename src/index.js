@@ -9,9 +9,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 // your code goes here
-const fs = require('fs');
 let doc = require("./InitialData");
-
 
 app.get("/api/student", (req, res) => {
     res.send(doc);
@@ -20,7 +18,6 @@ app.get("/api/student", (req, res) => {
 app.get('/api/student/:id', (req, res) => {
     let id = req.params.id;
     for(let obj in doc){
-        console.log(doc[obj]);
         if(doc[obj]["id"] === parseInt(id)){
             res.send(doc[obj]);
             return;
@@ -32,45 +29,46 @@ app.get('/api/student/:id', (req, res) => {
 
 app.post("/api/student", (req, res) => {
     res.set("content-type", "application/x-www-form-urlencoded");
-    let {name, currrentClass, division} = req.body;
-    if(!name || !currrentClass || !division){
+    let {name, currentClass, division} = req.body;
+    if(!name || !currentClass || !division){
         res.status(400);
         return;
     }
     let obj = {
         id:doc.length+1,
         name:name,
-        currentClass: currrentClass,
+        currentClass: parseInt(currentClass),
         division:division
     }
     doc.push(obj);
-    res.send(obj.id);
+    res.send(obj);
 });
 
 app.put("/api/student/:id", (req, res) => {
     res.set("content-type", "application/x-www-form-urlencoded");
-    let {name, currrentClass, division} = req.body;
-    if(!name || !currrentClass || !division){
+    let id = req.params.id;
+    let {name, currentClass, division} = req.body;
+
+    if(!name || !currentClass || !division){
         res.status(400);
         return;
     }
     let flag = false;
     for(let obj in doc){
-        if(obj.id === req.params.id)
+        if(doc[obj]["id"] === parseInt(id)){
             flag = true;
+            doc[obj]["name"] = name;
+            doc[obj]["currentClass"] = currentClass;
+            doc[obj]["division"] = division;
+        }
+           
     }
     if(!flag){
         res.status(400);
         return;
     }
-    let obj = {
-        id:doc.length+1,
-        name:name,
-        currentClass: currrentClass,
-        division:division
-    }
-    doc.push(obj);
-    res.send(obj.id);
+    res.send(doc);
+    // res.send(obj.id);
 });
 
 app.delete("/api/student/:id", (req, res) => {
@@ -78,17 +76,17 @@ app.delete("/api/student/:id", (req, res) => {
     let flag = false;
     let index = null;
     for(let obj in doc){
-        if(obj.id === req.params.id){
+        if(doc[obj]["id"] === parseInt(id)){
             flag = true;
-            index = doc.indexOf(obj);
+            index = obj;
         }
-            
     }
     if(!flag){
-        res.status(400);
+        res.status(404);
         return;
     }
     doc.splice(index, 1);
+    res.send(doc);
 })
 
 app.listen(port, () => console.log(`App listening on port ${port}!`))
