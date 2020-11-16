@@ -82,7 +82,7 @@ app.delete("/api/student/:id", (req, res) => {
         }
     }
     if(!flag){
-        res.status(404);
+        res.status(404).send("invalid id");
         return;
     }
     doc.splice(index, 1);
