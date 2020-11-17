@@ -41,7 +41,7 @@ app.post("/api/student", (req, res) => {
         division:division
     }
     doc.push(obj);
-    res.send(JSON.stringify(obj.id));
+    res.send({id: obj.id});
 });
 
 app.put("/api/student/:id", (req, res) => {
