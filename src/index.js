@@ -29,7 +29,7 @@ app.get('/api/student/:id', (req, res) => {
 });
 
 app.post("/api/student", (req, res) => {
-    res.set("content-type", "application/x-www-form-urlencoded");
+//     res.set("content-type", "application/x-www-form-urlencoded");
     const newStudent = req.body;
     if(!newStudent.name || !newStudent.currentClass || !newStudent.division){
         res.sendStatus(400);
