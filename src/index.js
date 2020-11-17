@@ -10,6 +10,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 // your code goes here
 let doc = require("./InitialData");
+let idProp = students.length;
 
 app.get("/api/student", (req, res) => {
     res.send(doc);
@@ -29,19 +30,25 @@ app.get('/api/student/:id', (req, res) => {
 
 app.post("/api/student", (req, res) => {
     res.set("content-type", "application/x-www-form-urlencoded");
-    let {name, currentClass, division} = req.body;
-    if(!name || !currentClass || !division){
-        res.status(400);
+    const newStudent = request.body;
+    if(!newStudent.name || !newStudent.currentClass || !newStudent.division){
+        res.sendStatus(400);
         return;
     }
-    let obj = {
-        id:doc.length+1,
-        name:name,
-        currentClass: parseInt(currentClass),
-        division:division
-    }
-    doc.push(obj);
-    res.send({id: obj.id});
+
+    doc.push({
+        id: idProp+1,
+        name: newStudent.name,
+        currentClass: parseInt(newStudent.currentClass),
+        division: newStudent.division
+    });
+
+    idProp++;
+
+    
+    response.send({
+        id: idProp
+    });
 });
 
 app.put("/api/student/:id", (req, res) => {
