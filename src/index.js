@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 // your code goes here
 let doc = require("./InitialData");
-let idProp = students.length;
+let idProp = doc.length;
 
 app.get("/api/student", (req, res) => {
     res.send(doc);
