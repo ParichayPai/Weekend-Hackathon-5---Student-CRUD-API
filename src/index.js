@@ -51,33 +51,31 @@ app.post("/api/student", (req, res) => {
 });
 
 app.put("/api/student/:id", (req, res) => {
-    res.set("content-type", "application/x-www-form-urlencoded");
-    let id = req.params.id;
-    let {name, currentClass, division} = req.body;
-
-    if(!name || !currentClass || !division){
-        res.status(400);
+    const id = parseInt(req.params.id);
+    if(isNaN(id)){
+        res.sendStatus(400);
         return;
     }
-    let flag = false, index = null;
-    for(let obj in doc){
-        if(doc[obj]["id"] === parseInt(id)){
-           flag = true;
-           index = obj;
-        }
-           
-    }
-    if(!flag){
-        res.status(400);
-        return;
-    }
-
-    name ? doc[index]["name"] = name : null;
-    currentClass ? doc[index]["currentClass"] = currentClass : null;
-    division ? doc[index]["division"] = division : null;
     
-    res.send(doc);
-    // res.send(obj.id);
+    const index = doc.findIndex(stud => stud.id === id);
+    
+    if(index === -1){
+        res.sendStatus(400);
+        return;
+    }
+    
+    const student = doc[index];
+    if(req.body.name){
+        doc[index].name=req.body.name;
+    }
+    if(request.body.currentClass){
+        doc[index].currentClass=parseInt(req.body.currentClass);
+    }
+    if(request.body.division){
+        doc[index].division=req.body.division;
+    }
+    res.set("content-type", "application/x-www-form-urlencoded");
+    res.send( {name:req.body.name});
 });
 
 app.delete("/api/student/:id", (req, res) => {
