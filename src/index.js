@@ -57,7 +57,7 @@ app.put("/api/student/:id", (req, res) => {
         return;
     }
     
-    const index = doc.findIndex(stud => stud.id === id);
+    const index = doc.findIndex(student => student.id === id);
     
     if(index === -1){
         res.sendStatus(400);
