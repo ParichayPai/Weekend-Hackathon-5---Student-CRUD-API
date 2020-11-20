@@ -68,10 +68,10 @@ app.put("/api/student/:id", (req, res) => {
     if(req.body.name){
         doc[index].name=req.body.name;
     }
-    if(request.body.currentClass){
+    if(req.body.currentClass){
         doc[index].currentClass=parseInt(req.body.currentClass);
     }
-    if(request.body.division){
+    if(req.body.division){
         doc[index].division=req.body.division;
     }
     res.set("content-type", "application/x-www-form-urlencoded");
