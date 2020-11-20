@@ -75,26 +75,11 @@ app.put("/api/student/:id", (req, res) => {
         doc[index].division=req.body.division;
     }
     res.set("content-type", "application/x-www-form-urlencoded");
-    res.send( {name:req.body.name});
-});
-
-app.delete("/api/student/:id", (req, res) => {
-    let id = req.params.id;
-    let flag = false;
-    let index = null;
-    for(let obj in doc){
-        if(doc[obj]["id"] === parseInt(id)){
-            flag = true;
-            index = obj;
-        }
-    }
-    if(!flag){
-        res.status(404).send("invalid id");
-        return;
-    }
-    doc.splice(index, 1);
-    res.send(doc);
-//     const studentId = req.params.id;
+//     res.send( {name:req.body.name});
+    res.send(req.body.name);
+    
+    
+//         const studentId = req.params.id;
 
 //     const student = doc.find(el => el.id === parseInt(studentId));
     
@@ -138,6 +123,24 @@ app.delete("/api/student/:id", (req, res) => {
 
 //     //res.setHeader(['{"content-type":"application/x-www-form-urlencoded"}']);
 //     res.send(newStudent.name);
+});
+
+app.delete("/api/student/:id", (req, res) => {
+    let id = req.params.id;
+    let flag = false;
+    let index = null;
+    for(let obj in doc){
+        if(doc[obj]["id"] === parseInt(id)){
+            flag = true;
+            index = obj;
+        }
+    }
+    if(!flag){
+        res.status(404).send("invalid id");
+        return;
+    }
+    doc.splice(index, 1);
+    res.send(doc);
 })
 
 app.listen(port, () => console.log(`App listening on port ${port}!`))
